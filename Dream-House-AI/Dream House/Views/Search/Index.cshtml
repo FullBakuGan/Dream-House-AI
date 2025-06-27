@@ -1,0 +1,167 @@
+﻿@model List<hackaton_asp_project.Models.ad>
+
+@{
+    ViewBag.Title = "Поиск объявлений";
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Dream House</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Dream_House.styles.css" asp-append-version="true" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            max-width: 1024px;
+            margin: 0 auto;
+            background-color: #DDDEBE;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #435D00;
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        p {
+            color: #435D00;
+            font-size: 24px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .ads-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ad-item {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .ad-card {
+            background-color: #9AA968;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: row;
+        }
+
+            .ad-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .ad-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .ad-content {
+            padding: 20px;
+            color: #FFFFFF;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ad-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d2e93e;
+            margin-bottom: 15px;
+        }
+
+        .ad-details {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+            .ad-details strong {
+                color: #d2e93e;
+            }
+
+        .ad-button {
+            display: block;
+            width: 200px;
+            height: 50px;
+            background-color: #C8D4A9;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 50px;
+            text-decoration: none;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
+        }
+
+            .ad-button:hover {
+                background-color: #d2e93e;
+                color: #435D00;
+            }
+
+    </style>
+</head>
+<body>
+    <h2>Объявления</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Объявления не найдены.</p>
+    }
+    else
+    {
+        <div class="ads-grid">
+            @foreach (var ad in Model)
+            {
+                var mainImage = ad.image_ads.FirstOrDefault(img => img.основное == true)?.url_img ?? "https://via.placeholder.com/150";
+                <div class="ad-item">
+                    <div class="ad-card">
+                        <img src="@mainImage" class="ad-image" alt="Изображение объявления">
+                        <div class="ad-content">
+                            <div>
+                                <h5 class="ad-title">Объявление #@ad.ad_num</h5>
+                                <p class="ad-details">
+                                    <strong>Город:</strong> @ad.city.city_name<br />
+                                    <strong>Район:</strong> @(ad.district?.district_name ?? "Не указан")<br />
+                                    <strong>Городской район:</strong> @(ad.city_district?.city_district_name ?? "Не указан")<br />
+                                    <strong>Площадь:</strong> @(ad.area_obj.HasValue ? $"{ad.area_obj.Value} м²" : "Не указана")<br />
+                                    <strong>Количество комнат:</strong> @ad.count_of_rooms<br />
+                                    <strong>Этаж:</strong> @ad.stage<br />
+                                    <strong>Цена:</strong> @ad.cost
+                                </p>
+                            </div>
+                            <a href="#" class="ad-button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

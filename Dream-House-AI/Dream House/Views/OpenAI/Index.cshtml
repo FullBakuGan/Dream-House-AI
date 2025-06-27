@@ -1,0 +1,28 @@
+﻿@{
+	ViewData["Title"] = "Чат-бот";
+	Layout = null;
+}
+
+<h2>Чат-бот</h2>
+
+<div id="chatBox" style="border:1px solid #ccc; padding:10px; height:300px; overflow-y:auto;">
+</div>
+
+<input type="text" id="userInput" style="width:80%;" />
+<button id="sendBtn">Отправить</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('#sendBtn').click(function() {
+        var message = $('#userInput').val();
+        if (message.trim() === "") return;
+
+        $('#chatBox').append('<div><b>Вы:</b> ' + message + '</div>');
+        $('#userInput').val('');
+
+        $.post('/Chat/SendMessage', { message: message }, function(data) {
+            $('#chatBox').append('<div><b>Бот:</b> ' + data.reply + '</div>');
+            $('#chatBox').scrollTop($('#chatBox')[0].scrollHeight);
+        });
+    });
+</script>
