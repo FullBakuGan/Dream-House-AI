@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Dream_House.styles.css" asp-append-version="true" />
     <style>
+        /* Your existing styles remain unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -61,6 +62,7 @@
             transition: transform 0.3s ease;
             display: flex;
             flex-direction: row;
+            min-height: 200px;
         }
 
             .ad-card:hover {
@@ -68,9 +70,10 @@
             }
 
         .ad-image {
-            width: 200px;
-            height: 200px;
+            width: 50%;
+            height: 420px;
             object-fit: cover;
+            object-position: center; /* Center the image within the container */
             flex-shrink: 0;
         }
 
@@ -122,10 +125,88 @@
                 color: #435D00;
             }
 
+        /* New styles for the filter form */
+        .filter-form {
+            background-color: #C8D4A9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .filter-form label {
+                color: #435D00;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
+            .filter-form input,
+            .filter-form select {
+                padding: 8px;
+                border: 1px solid #435D00;
+                border-radius: 5px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .filter-form button {
+                background-color: #d2e93e;
+                color: #435D00;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+                .filter-form button:hover {
+                    background-color: #9AA968;
+                    color: #FFFFFF;
+                }
     </style>
 </head>
 <body>
     <h2>Объявления</h2>
+
+    <!-- Filter Form -->
+    <div class="filter-form">
+        <form method="get" asp-controller="Search" asp-action="CostFilter">
+            <label for="min">Минимальная цена:</label>
+            <input type="number" id="min" name="min" placeholder="0" />
+
+            <label for="max">Максимальная цена:</label>
+            <input type="number" id="max" name="max" placeholder="100000000" />
+
+            <button type="submit">Фильтровать по цене</button>
+        </form>
+
+        <form method="get" asp-controller="Search" asp-action="DistrictFilter">
+            <label for="district">Район:</label>
+            <input type="text" id="district" name="district" placeholder="Введите район" />
+
+            <button type="submit">Фильтровать по району</button>
+        </form>
+
+        <form method="get" asp-controller="Search" asp-action="RoomsFilter">
+            <label for="count">Количество комнат:</label>
+            <select id="count" name="count">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5+</option>
+            </select>
+
+            <button type="submit">Фильтровать по комнатам</button>
+        </form>
+
+        <form method="get" asp-controller="Search" asp-action="ResidentialComplex">
+            <label for="city_dis">Жилой комплекс:</label>
+            <input type="text" id="city_dis" name="city_dis" placeholder="Введите жилой комплекс" />
+
+            <button type="submit">Фильтровать по ЖК</button>
+        </form>
+    </div>
 
     @if (!Model.Any())
     {
@@ -147,7 +228,7 @@
                                     <strong>Город:</strong> @ad.city.city_name<br />
                                     <strong>Район:</strong> @(ad.district?.district_name ?? "Не указан")<br />
                                     <strong>Городской район:</strong> @(ad.city_district?.city_district_name ?? "Не указан")<br />
-                                    <strong>Площадь:</strong> @(ad.area_obj.HasValue ? $"{ad.area_obj.Value} м²" : "Не указана")<br />
+                                    <strong>Площадь:</strong> @(ad.area_obj.HasValue ? $"{ad.area_obj.Value} м²" : "Неindicated")<br />
                                     <strong>Количество комнат:</strong> @ad.count_of_rooms<br />
                                     <strong>Этаж:</strong> @ad.stage<br />
                                     <strong>Цена:</strong> @ad.cost

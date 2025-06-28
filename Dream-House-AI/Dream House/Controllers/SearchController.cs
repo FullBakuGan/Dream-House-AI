@@ -30,53 +30,67 @@ namespace Dream_House.Controllers
 
         public async Task<IActionResult> CostFilter(int? min, int? max)
         {
-            var ad = _context.ads
+            var query = _context.ads
                 .Include(a => a.city)
                 .Include(a => a.district)
                 .Include(a => a.city_district)
                 .Include(a => a.image_ads)
-                .Where(a => (!min.HasValue || a.cost >= min.Value) && (!max.HasValue || a.cost <= max.Value));
+                .AsQueryable();
 
-            var resultList = await ad.ToListAsync();
+            if (min.HasValue)
+                query = query.Where(a => a.cost >= min.Value);
+            if (max.HasValue)
+                query = query.Where(a => a.cost <= max.Value);
+
+            var resultList = await query.ToListAsync();
             return View("Index", resultList);
         }
 
         public async Task<IActionResult> DistrictFilter(string district)
         {
-            var ad = _context.ads
+            var query = _context.ads
                 .Include(a => a.city)
                 .Include(a => a.district)
                 .Include(a => a.city_district)
                 .Include(a => a.image_ads)
-                .Where(a => district == null || (a.district != null && a.district.district_name.Contains(district)));
+                .AsQueryable();
 
-            var resultList = await ad.ToListAsync();
+            if (!string.IsNullOrEmpty(district))
+                query = query.Where(a => a.district != null && EF.Functions.Like(a.district.district_name, $"%{district}%"));
+
+            var resultList = await query.ToListAsync();
             return View("Index", resultList);
         }
 
-        public async Task<IActionResult> RoomsFilter(int count)
+        public async Task<IActionResult> RoomsFilter(int? count)
         {
-            var ad = _context.ads
+            var query = _context.ads
                 .Include(a => a.city)
                 .Include(a => a.district)
                 .Include(a => a.city_district)
                 .Include(a => a.image_ads)
-                .Where(a => a.count_of_rooms == count);
+                .AsQueryable();
 
-            var resultList = await ad.ToListAsync();
+            if (count.HasValue)
+                query = query.Where(a => a.count_of_rooms != null && a.count_of_rooms == count.Value);
+
+            var resultList = await query.ToListAsync();
             return View("Index", resultList);
         }
 
         public async Task<IActionResult> ResidentialComplex(string city_dis)
         {
-            var ad = _context.ads
+            var query = _context.ads
                 .Include(a => a.city)
                 .Include(a => a.district)
                 .Include(a => a.city_district)
                 .Include(a => a.image_ads)
-                .Where(a => city_dis == null || (a.city_district != null && a.city_district.city_district_name.Contains(city_dis)));
+                .AsQueryable();
 
-            var resultList = await ad.ToListAsync();
+            if (!string.IsNullOrEmpty(city_dis))
+                query = query.Where(a => a.city_district != null && EF.Functions.Like(a.city_district.city_district_name, $"%{city_dis}%"));
+
+            var resultList = await query.ToListAsync();
             return View("Index", resultList);
         }
     }
