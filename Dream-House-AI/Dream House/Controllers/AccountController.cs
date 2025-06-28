@@ -46,7 +46,7 @@ namespace Dream_House.Controllers
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 var claims = new List<Claim>
                 {
-                    new Claim("id", user.Id.ToString()), // Добавляем Claim для id
+                    new Claim("id", user.Id.ToString()),
                     new Claim(ClaimTypes.Email, model.Email),
                     new Claim(ClaimTypes.Name, $"{firstName} {lastName}"),
                     new Claim(ClaimTypes.Role, roleId.ToString())
@@ -59,8 +59,8 @@ namespace Dream_House.Controllers
 
                 return roleId switch
                 {
-                    1 => RedirectToAction("Index", "Client"),
-                    2 => RedirectToAction("Index", "Realtor"),
+                    1 => RedirectToAction("Index", "Profile"),
+                    2 => RedirectToAction("Index", "Profile"),
                     3 => RedirectToAction("Index", "Developer"),
                     4 => RedirectToAction("Index", "Admin"),
                     _ => RedirectToAction("Index", "Home")
