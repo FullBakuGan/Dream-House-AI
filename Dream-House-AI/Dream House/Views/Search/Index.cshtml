@@ -4,170 +4,168 @@
     ViewBag.Title = "Поиск объявлений";
     Layout = null;
 }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    body {
+        max-width: 1024px;
+        margin: 0 auto;
+        background-color: #DDDEBE;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #435D00;
+        text-align: center;
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    p {
+        color: #435D00;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .ads-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .ad-item {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .ad-card {
+        background-color: #9AA968;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: row;
+        min-height: 200px;
+    }
+
+        .ad-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .ad-image {
+        width: 50%;
+        height: 420px;
+        object-fit: cover;
+        object-position: center;
+        flex-shrink: 0;
+    }
+
+    .ad-content {
+        padding: 20px;
+        color: #FFFFFF;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .ad-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #d2e93e;
+        margin-bottom: 15px;
+    }
+
+    .ad-details {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+        .ad-details strong {
+            color: #d2e93e;
+        }
+
+    .ad-button {
+        display: block;
+        width: 200px;
+        height: 50px;
+        background-color: #C8D4A9;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 50px;
+        text-decoration: none;
+        margin: 0 auto;
+        transition: background-color 0.3s ease;
+    }
+
+        .ad-button:hover {
+            background-color: #d2e93e;
+            color: #435D00;
+        }
+
+    .filter-form {
+        background-color: #C8D4A9;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .filter-form label {
+            color: #435D00;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .filter-form input,
+        .filter-form select {
+            padding: 8px;
+            border: 1px solid #435D00;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filter-form button {
+            background-color: #d2e93e;
+            color: #435D00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .filter-form button:hover {
+                background-color: #9AA968;
+                color: #FFFFFF;
+            }
+</style>
 <head>
-    <meta charset="utf-8" />
+    @* <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - Dream House</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
     @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
     @* <link rel="stylesheet" href="~/Dream_House.styles.css" asp-append-version="true" /> *@
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            max-width: 1024px;
-            margin: 0 auto;
-            background-color: #DDDEBE;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #435D00;
-            text-align: center;
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
-
-        p {
-            color: #435D00;
-            font-size: 24px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .ads-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .ad-item {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .ad-card {
-            background-color: #9AA968;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: row;
-            min-height: 200px;
-        }
-
-            .ad-card:hover {
-                transform: translateY(-5px);
-            }
-
-        .ad-image {
-            width: 50%;
-            height: 420px;
-            object-fit: cover;
-            object-position: center; /* Center the image within the container */
-            flex-shrink: 0;
-        }
-
-        .ad-content {
-            padding: 20px;
-            color: #FFFFFF;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .ad-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #d2e93e;
-            margin-bottom: 15px;
-        }
-
-        .ad-details {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-            .ad-details strong {
-                color: #d2e93e;
-            }
-
-        .ad-button {
-            display: block;
-            width: 200px;
-            height: 50px;
-            background-color: #C8D4A9;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            line-height: 50px;
-            text-decoration: none;
-            margin: 0 auto;
-            transition: background-color 0.3s ease;
-        }
-
-            .ad-button:hover {
-                background-color: #d2e93e;
-                color: #435D00;
-            }
-
-        /* New styles for the filter form */
-        .filter-form {
-            background-color: #C8D4A9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-            .filter-form label {
-                color: #435D00;
-                font-weight: bold;
-                margin-right: 10px;
-            }
-
-            .filter-form input,
-            .filter-form select {
-                padding: 8px;
-                border: 1px solid #435D00;
-                border-radius: 5px;
-                margin-right: 10px;
-                margin-bottom: 10px;
-            }
-
-            .filter-form button {
-                background-color: #d2e93e;
-                color: #435D00;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                font-weight: bold;
-                cursor: pointer;
-            }
-
-                .filter-form button:hover {
-                    background-color: #9AA968;
-                    color: #FFFFFF;
-                }
-    </style>
+    
 </head>
 <body>
     <h2>Объявления</h2>
 
-    <!-- Filter Form -->
     <div class="filter-form">
         <form method="get" asp-controller="Search" asp-action="CostFilter">
             <label for="min">Минимальная цена:</label>
