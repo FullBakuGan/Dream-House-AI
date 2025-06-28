@@ -9,3 +9,5 @@ Dream-House-AI/Dream House/bin/ Dream-House-AI/Dream House/obj/
 Configuration files
 
 *.json
+
+appsettings.Development.json
