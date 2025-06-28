@@ -5,8 +5,8 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["DreamHouse/DreamHouse.csproj", "DreamHouse/"]
-RUN dotnet restore "DreamHouse/DreamHouse.csproj"
+COPY ["Dream House/Dream House.csproj", "DreamHouse/"]
+RUN dotnet restore "Dream House/Dream House.csproj"
 
 COPY . .
 WORKDIR "/src/DreamHouse"
