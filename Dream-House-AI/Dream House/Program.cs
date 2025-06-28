@@ -77,19 +77,19 @@ builder.Services.AddTransient<ChatBotService>();
 var app = builder.Build();
 
 // Применение миграций при старте
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    try
-    {
-        dbContext.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Migration error: {ex.Message}");
-        throw;
-    }
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//    try
+//    {
+//        dbContext.Database.Migrate();
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine($"Migration error: {ex.Message}");
+//        throw;
+//    }
+//}
 
 app.UseStaticFiles();
 app.UseRouting();
