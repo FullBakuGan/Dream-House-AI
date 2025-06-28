@@ -1,0 +1,11 @@
+Visual Studio files
+
+*.suo *.user .vs/ Dream-House-AI/.vs/
+
+Build artifacts
+
+Dream-House-AI/Dream House/bin/ Dream-House-AI/Dream House/obj/
+
+Configuration files
+
+*.json
