@@ -62,6 +62,16 @@ if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("p
 }
 Console.WriteLine($"Parsed Connection String: {connectionString}"); // Для отладки
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -97,7 +107,7 @@ var app = builder.Build();
 //        throw;
 //    }
 //}
-
+app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

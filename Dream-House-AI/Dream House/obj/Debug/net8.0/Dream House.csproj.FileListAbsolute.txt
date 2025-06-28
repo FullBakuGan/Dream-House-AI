@@ -712,7 +712,6 @@ D:\hackaton_repositoriy\Dream-House-AI\Dream House\obj\Debug\net8.0\refint\Dream
 D:\hackaton_repositoriy\Dream-House-AI\Dream House\obj\Debug\net8.0\Dream House.pdb
 D:\hackaton_repositoriy\Dream-House-AI\Dream House\obj\Debug\net8.0\Dream House.genruntimeconfig.cache
 D:\hackaton_repositoriy\Dream-House-AI\Dream House\obj\Debug\net8.0\ref\Dream House.dll
-D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\appsettings.Development.json
 D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\appsettings.json
 D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Dream House.staticwebassets.runtime.json
 D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Dream House.exe
