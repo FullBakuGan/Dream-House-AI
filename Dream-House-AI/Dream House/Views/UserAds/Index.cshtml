@@ -4,6 +4,104 @@
     ViewData["Title"] = "Все объявления";
 }
 
+<style>
+    body {
+        background-color: #F7F7F2;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    h1 {
+        color: #435D00;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #9AA968;
+        border-color: #7F8B55;
+        transition: 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #7F8B55;
+            border-color: #5E6C40;
+        }
+
+    .table {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+        .table th {
+            background-color: #9AA968;
+            color: #fff;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+    .table-hover tbody tr:hover {
+        background-color: #eef1e0;
+    }
+
+    .table-success {
+        background-color: #d8e6b5 !important;
+    }
+
+    .img-thumbnail {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 3px;
+        background-color: #fff;
+    }
+
+    .text-muted {
+        text-align: center;
+        font-size: 18px;
+        color: #999;
+        margin-top: 30px;
+    }
+
+    .table-responsive {
+        margin-top: 20px;
+    }
+/* 
+    .card {
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    } */
+    .card {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .card-title {
+        font-weight: 600;
+        color: #435D00;
+    }
+
+    .card-text {
+        font-size: 15px;
+        line-height: 1.5;
+        color: #333;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+
+</style>
+
 <h1>Все объявления</h1>
 
 <p>
@@ -12,70 +110,63 @@
 
 @if (Model.Any())
 {
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Тип недвижимости</th>
-                    <th>Город</th>
-                    <th>Район</th>
-                    <th>Городской район</th>
-                    <th>Микрорайон</th>
-                    <th>Улица</th>
-                    <th>Площадь (кв.м)</th>
-                    <th>Стоимость</th>
-                    <th>Комнаты</th>
-                    <th>Этаж</th>
-                    <th>Описание</th>
-                    <th>Фотографии</th>
-                    <th>Владелец</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ad in Model)
-                {
-                    <tr class="@(ViewBag.CurrentUserId != null && ad.UserId == ViewBag.CurrentUserId ? "table-success" : "")">
-                        <td>@(ad.Type?.type_name ?? "Не указан")</td>
-                        <td>@(ad.City?.city_name ?? "Не указан")</td>
-                        <td>@(ad.District?.district_name ?? "-")</td>
-                        <td>@(ad.CityDistrict?.city_district_name ?? "-")</td>
-                        <td>@(ad.Microdistrict?.microdistrict_name ?? "-")</td>
-                        <td>@(ad.Street?.street_name ?? "-")</td>
-                        <td>@(ad.AreaObj?.ToString("F2") ?? "-")</td>
-                        <td>@(ad.Cost?.ToString("C") ?? "-")</td>
-                        <td>@ad.CountOfRooms</td>
-                        <td>@ad.Stage</td>
-                        <td>@(string.IsNullOrEmpty(ad.Description) ? "-" : ad.Description)</td>
-                        <td>
+    <div class="row justify-content-center">
+        @foreach (var ad in Model)
+        {
+            <div class="d-flex justify-content-center">
+                <div class="card mb-4 shadow-sm w-100" style="max-width: 900px;">
+                    <div class="row g-0">
+                        <div class="col-md-4 text-center p-2 d-flex flex-column justify-content-center">
                             @if (!string.IsNullOrEmpty(ad.ImageUrls))
                             {
-                                var images = ad.ImageUrls.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                                @foreach (var image in images)
-                                {
-                                    <img src="@image.Trim()" alt="Фото объявления" class="img-thumbnail" style="max-width: 80px; margin: 3px;" />
-                                }
+                                var firstImage = ad.ImageUrls.Split(',', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim();
+                                <img src="@firstImage" class="img-fluid rounded-start" alt="Фото" style="max-height: 220px;" />
                             }
                             else
                             {
-                                <span>Нет фото</span>
+                                <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                                    Нет фото
+                                </div>
                             }
-                        </td>
-                        <td>
-                            @(ViewBag.CurrentUserId != null && ad.UserId == ViewBag.CurrentUserId ? "Моё" : (ad.Users?.Email ?? "Неизвестный пользователь"))
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title text-success">
+                                    @ad.Type?.type_name
+                                </h5>
+                                <p class="card-text">
+                                    <strong>Город:</strong> @(ad.City?.city_name ?? "Не указан")<br />
+                                    <strong>Район:</strong> @(ad.District?.district_name ?? "-") |
+                                    <strong>Городской район:</strong> @(ad.CityDistrict?.city_district_name ?? "-")<br />
+                                    @* <strong>Микрорайон:</strong> @(ad.Microdistrict?.microdistrict_name ?? "-")<br /> *@
+                                    <strong>Улица:</strong> @(ad.Street?.street_name ?? "-")<br />
+                                    <strong>Площадь:</strong> @(ad.AreaObj.HasValue ? $"{ad.AreaObj.Value:F2} м²" : "-") |
+                                    <strong>Стоимость:</strong> @(ad.Cost.HasValue ? $"{ad.Cost.Value:N2} ₽" : "-")<br />
+                                    <strong>Комнат:</strong> @ad.CountOfRooms |
+                                    <strong>Этаж:</strong> @ad.Stage<br />
+                                    <strong>Описание:</strong> @(string.IsNullOrWhiteSpace(ad.Description) ? "-" : ad.Description)
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Владелец: @(ViewBag.CurrentUserId != null && ad.UserId == ViewBag.CurrentUserId ? "Моё" : (ad.Users?.Email ?? "Неизвестный пользователь"))
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
     </div>
 }
 else
 {
-    <p class="text-muted">Объявления отсутствуют. Добавьте новое объявление, чтобы начать!</p>
+    <p class="text-muted text-center">Объявления отсутствуют. Добавьте новое объявление, чтобы начать!</p>
 }
+
 
 @section Scripts {
     <script>
-        // Additional JavaScript, if needed (e.g., for table interactivity)
     </script>
 }

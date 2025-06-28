@@ -130,6 +130,7 @@ namespace Dream_House.Controllers
                     new Claim("id", user.Id.ToString()), // Добавляем Claim для id
                     new Claim(ClaimTypes.Email, model.Email),
                     new Claim(ClaimTypes.Name, $"{model.Name} {model.Surname}"),
+                    new Claim(ClaimTypes.MobilePhone, model.PhoneNumber.ToString()),
                     new Claim(ClaimTypes.Role, model.RoleId.ToString())
                 };
 

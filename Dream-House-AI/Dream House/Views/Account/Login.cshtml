@@ -4,144 +4,202 @@
     Layout = null;
 }
 
-<h2>@ViewData["Title"]</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+            font-size: 14px;
+        }
 
-<style>
-    :root {
-        --primary: #4361ee;
-        --primary-dark: #3a56d4;
-        --text: #2b2d42;
-        --light: #f8f9fa;
-        --border-radius: 10px;
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        --transition: all 0.3s ease;
-    }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
 
-    body {
-        background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #DDDEBE;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+        }
 
-    .login-container {
-        background: white;
-        width: 100%;
-        max-width: 420px;
-        padding: 40px 30px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
-        animation: fadeIn 0.5s ease-out;
-    }
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-    h1 {
-        color: var(--text);
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 24px;
-        font-weight: 600;
-    }
+        a {
+            text-decoration: none;
+        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+        h1 {
+            color: #435D00;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        color: var(--text);
-        font-size: 14px;
-        font-weight: 500;
-    }
+        /* Registration */
+        .container-registration {
+            width: 568px;
+            background-color: #9AA968;
+            color: #FFFFFF;
+            border-radius: 20px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    input {
-        width: 100%;
-        padding: 14px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: var(--border-radius);
-        font-size: 15px;
-        transition: var(--transition);
-        background-color: var(--light);
-    }
+        .registration-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 80px;
+            gap: 20px;
+        }
 
-        input:focus {
-            border-color: var(--primary);
+        .auth-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .auth-link {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            font-size: 23px;
+            transition: all 0.3s ease;
+            position: relative;
+            margin: 0 5px;
+        }
+
+        .auth-link:hover {
+            color: #d2e93e;
+        }
+
+        .auth-link.active {
+            color: #d2e93e;
+            font-weight: 600;
+        }
+
+        .form-group-input {
+            width: 441px;
+            height: 58px;
+            background-color: #C8D4A9;
+            border: none;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 15px;
+        }
+
+        .registration-form > input:focus {
+            background-color: #C8D4A9;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
         }
 
-    button {
-        width: 100%;
-        padding: 14px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: var(--border-radius);
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        margin-top: 10px;
-    }
-
-        button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+        ::placeholder {
+            color: #435D00;
         }
 
-    .login-link {
-        text-align: center;
-        margin-top: 25px;
-        color: #64748b;
-        font-size: 14px;
-    }
+        .submit-btn {
+            width: 300px;
+            height: 65px;
+            background-color: #C8D4A9;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 60px;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #7D8F4E;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #FFFFFF;
+            font-size: 14px;
+        }
 
         .login-link a {
-            color: var(--primary);
+            color: #d2e93e;
             text-decoration: none;
             font-weight: 500;
-            margin-left: 5px;
-            transition: var(--transition);
         }
 
-            .login-link a:hover {
-                text-decoration: underline;
-            }
-</style>
+        .login-link a:hover {
+            text-decoration: underline;
+        }
 
-<div class="login-container">
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    <form asp-action="Login" method="post">
-        @Html.AntiForgeryToken()
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 500;
+        }
 
-        <div asp-validation-summary="All" class="text-danger"></div>
+        .text-danger {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-registration">
+        <h1>DREAM HOUSE</h1>
 
-        <div class="form-group">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <form asp-action="Login" method="post" class="registration-form">
+            @Html.AntiForgeryToken()
+
+            <div class="auth-links">
+                <a class="auth-link active" asp-controller="Account" asp-action="Login">Войти</a>
+                <a class="auth-link" asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email">Почта</label>
+                <input asp-for="Email" class="form-group-input" placeholder="Почта" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Пароль</label>
+                <input asp-for="Password" type="password" class="form-group-input" placeholder="Пароль" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="submit-btn">Войти</button>
+        </form>
+
+        <div class="login-link">
+            Нет аккаунта? <a asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
         </div>
-
-        <div class="form-group">
-            <label asp-for="Password"></label>
-            <input asp-for="Password" type="password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
-
-    <div class="login-link">
-        Нет аккаунта? <a asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
     </div>
-</div>
-
+</body>
+</html>

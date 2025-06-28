@@ -19,9 +19,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddTransient<OpenAIService>();
+builder.Services.AddTransient<ChatBotService>();
 var app = builder.Build();
-
+app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication(); 
 app.UseAuthorization();

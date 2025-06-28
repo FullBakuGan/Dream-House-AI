@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "Чат-бот";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <style>
+        #chatBox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        #userInput {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        #sendBtn {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            #sendBtn:hover {
+                background-color: #45a049;
+            }
+
+        #loading {
+            color: #666;
+            font-style: italic;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Чат-бот</h2>
+
+    <div id="chatBox"></div>
+
+    <div>
+        <input type="text" id="userInput" placeholder="Введите ваше сообщение..." />
+        <button id="sendBtn">Отправить</button>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Фокус на поле ввода при загрузке
+            $('#userInput').focus();
+
+            // Функция прокрутки чата вниз
+            function scrollChat() {
+                const chatBox = document.getElementById('chatBox');
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            // Функция показа ошибки
+            function showError(message) {
+                $('#chatBox').append(`<div class="error-message">${message}</div>`);
+                scrollChat();
+            }
+
+            // Основная функция отправки сообщения
+            function sendMessage() {
+                const message = $('#userInput').val().trim();
+                if (!message) {
+                    alert('Пожалуйста, введите сообщение');
+                    return;
+                }
+
+                $('#chatBox').append(`<div><strong>Вы:</strong> ${message}</div>`);
+                $('#userInput').val('');
+                $('#chatBox').append('<div id="loading">Бот печатает...</div>');
+                scrollChat();
+
+                $.ajax({
+                    url: '/ChatBot/SendMessage',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ message: message }),
+                    success: function (data) {
+                        $('#loading').remove();
+                        if (data.reply) {
+                            $('#chatBox').append(`<div><strong>Бот:</strong> ${data.reply}</div>`);
+                        } else {
+                            showError(data.error || "Неизвестный ответ сервера");
+                        }
+                        scrollChat();
+                    },
+                    error: function (xhr) {
+                        $('#loading').remove();
+                        let errorMsg = "Ошибка соединения";
+                        if (xhr.responseJSON) {
+                            errorMsg = xhr.responseJSON.error ||
+                                xhr.responseJSON.details ||
+                                "Ошибка сервера";
+                        }
+                        showError(errorMsg);
+                        console.error('Ошибка:', xhr.responseText);
+                    }
+                });
+            }
+
+            // Обработчики событий
+            $('#sendBtn').on('click', sendMessage);
+            $('#userInput').on('keypress', function (e) {
+                if (e.which === 13) {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<style>
+    body {
+        background-color: #F7F7F2;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .profile-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        padding: 30px;
+    }
+
+    .profile-title {
+        color: #435D00;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-size: 28px;
+    }
+
+    .profile-info {
+        font-size: 16px;
+        color: #333;
+        line-height: 1.8;
+    }
+
+        .profile-info strong {
+            color: #7F8B55;
+        }
+
+    .btn-logout {
+        margin-top: 30px;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #9AA968;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-logout:hover {
+            background-color: #7F8B55;
+            cursor: pointer;
+        }
+</style>
+
+<div class="profile-container">
+    <div class="profile-title">Профиль пользователя</div>
+
+    <div class="profile-info">
+        <p><strong>Имя пользователя:</strong> @Model.User</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+    </div>
+
+    <form asp-action="Logout" method="post">
+        <button type="submit" class="btn-logout">Выйти из аккаунта</button>
+    </form>
+</div>
