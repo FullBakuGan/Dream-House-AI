@@ -347,7 +347,7 @@ namespace Dream_House.Migrations
 
                     b.HasIndex(new[] { "id_ad" }, "idx_ad_parametres_id_ad");
 
-                    b.ToTable("ad_parametres", t =>
+                    b.ToTable("ad_parametres", null, t =>
                         {
                             t.HasComment("Хранит дополнительные параметры объявлений (например, этаж, наличие балкона)");
                         });
@@ -461,7 +461,7 @@ namespace Dream_House.Migrations
                     b.HasIndex(new[] { "id_user", "id_ad" }, "unique_user_ad")
                         .IsUnique();
 
-                    b.ToTable("favorites", t =>
+                    b.ToTable("favorites", null, t =>
                         {
                             t.HasComment("Хранит информацию об объявлениях, добавленных пользователями в избранное");
                         });
@@ -586,7 +586,7 @@ namespace Dream_House.Migrations
 
                     b.HasIndex(new[] { "id_source" }, "idx_parsing_logs_id_source");
 
-                    b.ToTable("parsing_logs", t =>
+                    b.ToTable("parsing_logs", null, t =>
                         {
                             t.HasComment("Хранит логи работы парсера для мониторинга и отладки");
                         });

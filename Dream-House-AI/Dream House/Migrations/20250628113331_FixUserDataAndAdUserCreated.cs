@@ -6,12 +6,18 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Dream_House.Migrations
 {
-    /// <inheritdoc />
     public partial class FixUserDataAndAdUserCreated : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // Добавляем данные в таблицу role перед вставкой в users
+            migrationBuilder.Sql(@"
+                INSERT INTO role (id, name)
+                VALUES (1, 'Покупатель'),
+                       (2, 'Застройщик')
+                ON CONFLICT DO NOTHING;
+            ");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_ad_user_created",
                 table: "ad_user_created");
@@ -63,7 +69,6 @@ namespace Dream_House.Migrations
                 onDelete: ReferentialAction.Cascade);
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -106,6 +111,8 @@ namespace Dream_House.Migrations
                 name: "PK_ad_user_created",
                 table: "ad_user_created",
                 column: "id");
+
+            migrationBuilder.Sql("DELETE FROM role WHERE id IN (1, 2);");
         }
     }
 }
