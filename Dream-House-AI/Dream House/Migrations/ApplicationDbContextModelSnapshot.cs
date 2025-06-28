@@ -121,6 +121,105 @@ namespace Dream_House.Migrations
                         {
                             t.HasComment("Хранит информацию о зарегистрированных пользователях сервиса");
                         });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 100,
+                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "test@example.com",
+                            HashPassword = "hashed_password",
+                            Name = "Test",
+                            RegistrationDate = new DateTime(2025, 6, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RoleId = 1,
+                            Surname = "User"
+                        });
+                });
+
+            modelBuilder.Entity("hackaton_asp_project.Models.AdUserCreated", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasComment("Уникальный идентификатор объявления (автоинкремент)");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal?>("AreaObj")
+                        .HasColumnType("numeric")
+                        .HasColumnName("area_obj");
+
+                    b.Property<int?>("CityDistrictId")
+                        .HasColumnType("integer")
+                        .HasColumnName("city_district_id");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("integer")
+                        .HasColumnName("city_id");
+
+                    b.Property<decimal?>("Cost")
+                        .HasColumnType("numeric")
+                        .HasColumnName("cost");
+
+                    b.Property<int>("CountOfRooms")
+                        .HasColumnType("integer")
+                        .HasColumnName("count_of_rooms");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int?>("DistrictId")
+                        .HasColumnType("integer")
+                        .HasColumnName("district_id");
+
+                    b.Property<string>("ImageUrls")
+                        .HasColumnType("text")
+                        .HasColumnName("image_urls");
+
+                    b.Property<int?>("MicrodistrictId")
+                        .HasColumnType("integer")
+                        .HasColumnName("microdistrict_id");
+
+                    b.Property<int>("Stage")
+                        .HasColumnType("integer")
+                        .HasColumnName("stage");
+
+                    b.Property<int?>("StreetId")
+                        .HasColumnType("integer")
+                        .HasColumnName("street_id");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("type_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id")
+                        .HasComment("Ссылка на пользователя (таблица users)");
+
+                    b.HasKey("Id")
+                        .HasName("ad_user_created_pkey");
+
+                    b.HasIndex("CityDistrictId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("MicrodistrictId");
+
+                    b.HasIndex("StreetId");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ad_user_created", null, t =>
+                        {
+                            t.HasComment("Хранит пользовательские объявления");
+                        });
                 });
 
             modelBuilder.Entity("hackaton_asp_project.Models.ad", b =>
@@ -658,6 +757,58 @@ namespace Dream_House.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("hackaton_asp_project.Models.AdUserCreated", b =>
+                {
+                    b.HasOne("hackaton_asp_project.Models.city_district", "CityDistrict")
+                        .WithMany()
+                        .HasForeignKey("CityDistrictId");
+
+                    b.HasOne("hackaton_asp_project.Models.city", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("hackaton_asp_project.Models.district", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId");
+
+                    b.HasOne("hackaton_asp_project.Models.microdistrict", "Microdistrict")
+                        .WithMany()
+                        .HasForeignKey("MicrodistrictId");
+
+                    b.HasOne("hackaton_asp_project.Models.street", "Street")
+                        .WithMany()
+                        .HasForeignKey("StreetId");
+
+                    b.HasOne("hackaton_asp_project.Models.type_obj", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dream_House.Models.User", "Users")
+                        .WithMany("Ads")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user");
+
+                    b.Navigation("City");
+
+                    b.Navigation("CityDistrict");
+
+                    b.Navigation("District");
+
+                    b.Navigation("Microdistrict");
+
+                    b.Navigation("Street");
+
+                    b.Navigation("Type");
+
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("hackaton_asp_project.Models.ad", b =>
                 {
                     b.HasOne("hackaton_asp_project.Models.city_district", "city_district")
@@ -805,6 +956,8 @@ namespace Dream_House.Migrations
 
             modelBuilder.Entity("Dream_House.Models.User", b =>
                 {
+                    b.Navigation("Ads");
+
                     b.Navigation("favorites");
                 });
 

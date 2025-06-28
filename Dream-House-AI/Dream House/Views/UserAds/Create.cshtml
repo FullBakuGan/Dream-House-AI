@@ -1,0 +1,104 @@
+﻿@model hackaton_asp_project.Models.AdCreateViewModel
+
+@{
+    ViewData["Title"] = "Создать объявление";
+}
+
+<h1>Создать объявление</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="TypeId" class="control-label"></label>
+        <select asp-for="TypeId" class="form-control" asp-items="@(new SelectList(ViewBag.TypeList, "id", "type_name"))">
+            <option value="">Выберите тип недвижимости</option>
+        </select>
+        <span asp-validation-for="TypeId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CityId" class="control-label"></label>
+        <select asp-for="CityId" class="form-control" asp-items="@(new SelectList(ViewBag.CityList, "id", "city_name"))">
+            <option value="">Выберите город</option>
+        </select>
+        <span asp-validation-for="CityId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DistrictId" class="control-label"></label>
+        <select asp-for="DistrictId" class="form-control" asp-items="@(new SelectList(ViewBag.DistrictList, "id", "district_name"))">
+            <option value="">Выберите район</option>
+        </select>
+        <span asp-validation-for="DistrictId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CityDistrictId" class="control-label"></label>
+        <select asp-for="CityDistrictId" class="form-control" asp-items="@(new SelectList(ViewBag.CityDistrictList, "id", "city_district_name"))">
+            <option value="">Выберите городской район</option>
+        </select>
+        <span asp-validation-for="CityDistrictId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MicrodistrictId" class="control-label"></label>
+        <select asp-for="MicrodistrictId" class="form-control" asp-items="@(new SelectList(ViewBag.MicrodistrictList, "id", "microdistrict_name"))">
+            <option value="">Выберите микрорайон</option>
+        </select>
+        <span asp-validation-for="MicrodistrictId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StreetId" class="control-label"></label>
+        <select asp-for="StreetId" class="form-control" asp-items="@(new SelectList(ViewBag.StreetList, "id", "street_name"))">
+            <option value="">Выберите улицу</option>
+        </select>
+        <span asp-validation-for="StreetId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AreaObj" class="control-label"></label>
+        <input asp-for="AreaObj" class="form-control" />
+        <span asp-validation-for="AreaObj" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Cost" class="control-label"></label>
+        <input asp-for="Cost" class="form-control" />
+        <span asp-validation-for="Cost" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CountOfRooms" class="control-label"></label>
+        <input asp-for="CountOfRooms" class="form-control" />
+        <span asp-validation-for="CountOfRooms" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Stage" class="control-label"></label>
+        <input asp-for="Stage" class="form-control" />
+        <span asp-validation-for="Stage" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ImageUrls" class="control-label"></label>
+        <input asp-for="ImageUrls" class="form-control" placeholder="Введите URL фотографий, разделённые запятыми" />
+        <span asp-validation-for="ImageUrls" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Создать" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -20,7 +20,7 @@ namespace Dream_House.Services
         {
             var requestBody = new
             {
-                model = "gpt-4", // или "gpt-3.5-turbo"
+                model = "gpt-4",
                 messages = new[]
                 {
         new { role = "user", content = prompt }

@@ -2,21 +2,23 @@
 using Dream_House.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Dream_House.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dream_House.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly ApplicationDbContext _context;
 
-        public AccountController(IAuthService authService)
+        public AccountController(IAuthService authService, ApplicationDbContext context)
         {
             _authService = authService;
+            _context = context;
         }
 
         [HttpGet]
@@ -39,17 +41,15 @@ namespace Dream_House.Controllers
 
             var (success, firstName, lastName, roleId) = await _authService.AuthenticateUserAsync(model.Email, model.Password);
 
-
-
-
             if (success)
             {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 var claims = new List<Claim>
                 {
+                    new Claim("id", user.Id.ToString()), // Добавляем Claim для id
                     new Claim(ClaimTypes.Email, model.Email),
                     new Claim(ClaimTypes.Name, $"{firstName} {lastName}"),
-                    new Claim(ClaimTypes.Role, roleId.ToString()),
-            // Другие необходимые claims
+                    new Claim(ClaimTypes.Role, roleId.ToString())
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
@@ -62,6 +62,7 @@ namespace Dream_House.Controllers
                     1 => RedirectToAction("Index", "Client"),
                     2 => RedirectToAction("Index", "Realtor"),
                     3 => RedirectToAction("Index", "Developer"),
+                    4 => RedirectToAction("Index", "Admin"),
                     _ => RedirectToAction("Index", "Home")
                 };
             }
@@ -100,12 +101,12 @@ namespace Dream_House.Controllers
         {
             ViewBag.Title = "Регистрация";
 
-            // Обязательно перезагружаем список ролей при ошибках валидации
             ViewBag.Roles = new List<SelectListItem>
             {
                 new SelectListItem { Value = "1", Text = "Покупатель" },
                 new SelectListItem { Value = "2", Text = "Риелтор" },
-                new SelectListItem { Value = "3", Text = "Застройщик" }
+                new SelectListItem { Value = "3", Text = "Застройщик" },
+                new SelectListItem { Value = "4", Text = "Администратор" }
             };
 
             if (!ModelState.IsValid)
@@ -122,12 +123,28 @@ namespace Dream_House.Controllers
                     return View(model);
                 }
 
+                // Автоматический вход после регистрации
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                var claims = new List<Claim>
+                {
+                    new Claim("id", user.Id.ToString()), // Добавляем Claim для id
+                    new Claim(ClaimTypes.Email, model.Email),
+                    new Claim(ClaimTypes.Name, $"{model.Name} {model.Surname}"),
+                    new Claim(ClaimTypes.Role, model.RoleId.ToString())
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                await HttpContext.SignInAsync("Cookies", claimsPrincipal);
+
                 return model.RoleId switch
                 {
-                    1 => RedirectToAction("Index", "Client"),   
-                    2 => RedirectToAction("Index", "Realtor"),   
-                    3 => RedirectToAction("Index", "Developer"), 
-                    _ => RedirectToAction("Index", "Home")         
+                    1 => RedirectToAction("Index", "Client"),
+                    2 => RedirectToAction("Index", "Realtor"),
+                    3 => RedirectToAction("Index", "Developer"),
+                    4 => RedirectToAction("Index", "Admin"),
+                    _ => RedirectToAction("Index", "Home")
                 };
             }
             catch
@@ -135,7 +152,6 @@ namespace Dream_House.Controllers
                 ModelState.AddModelError("", "Произошла ошибка при регистрации");
                 return View(model);
             }
-
         }
     }
 }
