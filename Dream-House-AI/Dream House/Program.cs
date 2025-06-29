@@ -124,7 +124,16 @@ builder.Logging.AddConsole();
 // Authorization, Controllers, Views
 builder.Services.AddAuthorization();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<Bitrix24Auth>();
+builder.Services.AddSingleton<Bitrix24Client>();
 // Получение строки подключения
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
     ?? builder.Configuration.GetConnectionString("DefaultConnection")
@@ -200,12 +209,17 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 var app = builder.Build();
-
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
 // Middleware
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();

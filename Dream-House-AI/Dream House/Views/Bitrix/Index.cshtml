@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Bitrix24 Integration";
+}
+
+<h1>Bitrix24 Integration</h1>
+<a href="/api/bitrix/authorize">Authorize with Bitrix24</a>
+
+<h2>Create Lead</h2>
+<form id="leadForm">
+    <label>Title:</label>
+    <input type="text" id="title" name="title" required /><br />
+    <label>Name:</label>
+    <input type="text" id="name" name="name" required /><br />
+    <label>Phone:</label>
+    <input type="text" id="phone" name="phone" required /><br />
+    <button type="submit">Create Lead</button>
+</form>
+
+<script>
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value;
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+
+        const response = await fetch("/api/bitrix/create-lead", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title, name, phone })
+        });
+
+        const result = await response.json();
+        alert("Lead created: " + JSON.stringify(result));
+    });
+</script>
