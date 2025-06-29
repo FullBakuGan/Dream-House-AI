@@ -31,14 +31,6 @@ public class BitrixController : Controller
         return Redirect(authUrl);
     }
 
-    [HttpGet("/api/bitrix/callback")]
-    public async Task<IActionResult> Callback(string code)
-    {
-        var accessToken = await _bitrixAuth.GetAccessToken(code);
-        HttpContext.Session.SetString("BitrixAccessToken", accessToken);
-        return RedirectToAction("Index", "Bitrix");
-    }
-
     [HttpPost("/api/bitrix/create-lead")]
     public async Task<IActionResult> CreateLead([FromBody] LeadRequest request)
     {

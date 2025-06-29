@@ -870,3 +870,13 @@ D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\RestSharp.dll
 D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.StackExchangeRedis.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.Bcl.Cryptography.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\StackExchange.Redis.dll
+D:\main_proj_hackaton\Dream-House-AI\Dream House\bin\Debug\net8.0\System.Formats.Asn1.dll
