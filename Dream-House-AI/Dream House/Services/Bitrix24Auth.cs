@@ -30,19 +30,16 @@ public class Bitrix24Auth
         var redirectUri = _configuration["Bitrix24:RedirectUri"];
         var url = $"{portalUrl}/oauth/token/?grant_type=authorization_code&client_id={clientId}&client_secret={clientSecret}&code={code}&redirect_uri={redirectUri}";
 
-        Console.WriteLine($"Requesting token from: {url}");
-
         var response = await _httpClient.GetAsync(url);
         if (!response.IsSuccessStatusCode)
         {
             var errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Error: {errorContent}");
             throw new HttpRequestException($"Failed to get access token: {errorContent}");
         }
 
         var content = await response.Content.ReadAsStringAsync();
         var tokenData = JsonSerializer.Deserialize<BitrixTokenResponse>(content);
-        if (string.IsNullOrEmpty(tokenData.AccessToken))
+        if (string.IsNullOrEmpty(tokenData?.AccessToken))
         {
             throw new InvalidOperationException("Access token not found in response: " + content);
         }

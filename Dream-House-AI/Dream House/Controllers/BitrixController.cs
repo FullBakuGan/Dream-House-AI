@@ -34,7 +34,7 @@ public class BitrixController : Controller
     [HttpPost("/api/bitrix/create-lead")]
     public async Task<IActionResult> CreateLead([FromBody] LeadRequest request)
     {
-        var accessToken = HttpContext.Session.GetString("BitrixAccessToken");
+        var accessToken = HttpContext.Request.Cookies["BitrixAccessToken"];
         if (string.IsNullOrEmpty(accessToken))
         {
             return Unauthorized("Access token not found. Please authorize.");
