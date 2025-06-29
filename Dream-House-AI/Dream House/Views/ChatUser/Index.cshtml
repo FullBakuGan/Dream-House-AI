@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Чат между пользователями";
+}
+
+<h2>Чат</h2>
+
+<div>
+    <label for="userId">Ваш ID:</label>
+    <input type="text" id="userId" value="@User.Identity.Name" readonly />
+</div>
+
+<div>
+    <label for="targetUserId">ID собеседника:</label>
+    <input type="text" id="targetUserId" placeholder="Введите ID собеседника" />
+</div>
+
+
+
+<div>
+    <input type="text" id="messageInput" placeholder="Введите сообщение" />
+    <button id="sendBtn">Отправить</button>
+</div>
+
+<ul id="messagesList"></ul>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        let connection;
+        const userId = "@User.Identity.Name";
+
+        // Подключение к хабу
+        async function startConnection() {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chathub")
+                .build();
+
+            // Обработчик входящих сообщений
+            connection.on("ReceiveMessage", (data) => {
+                const li = document.createElement("li");
+                li.textContent = `${data.sender}: ${data.text}`;
+                document.getElementById("messagesList").appendChild(li);
+            });
+
+            try {
+                await connection.start();
+                console.log("SignalR подключен");
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener("DOMContentLoaded", startConnection);
+
+        // Отправка сообщения
+        document.getElementById("sendBtn").addEventListener("click", async () => {
+            const message = document.getElementById("messageInput").value;
+            const targetUserId = document.getElementById("targetUserId").value;
+
+            if (connection && connection.state === signalR.HubConnectionState.Connected) {
+                try {
+                    await connection.invoke("SendMessageToUser", targetUserId, message);
+                    document.getElementById("messageInput").value = "";
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        });
+    </script>
+}
