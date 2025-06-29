@@ -86,7 +86,7 @@ namespace Dream_House.Services
             {
                 var request = new
                 {
-                    modelUri = $"gpt://{_folderId}/yandexgpt-lite/latest",
+                    modelUri = $"gpt://{_folderId}/yandexgpt-lite",
                     completionOptions = new
                     {
                         stream = false,
